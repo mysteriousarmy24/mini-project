@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "706953875764",
+    "project_id": "expenz-6cfea",
+    "storage_bucket": "expenz-6cfea.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:706953875764:android:dd7cf476fab350a5e21561",
+        "android_client_info": {
+          "package_name": "com.example.expenz"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDji-F4uXeFX17lwcXuPkwUQG2GUxENVwU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
