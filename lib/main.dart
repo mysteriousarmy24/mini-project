@@ -16,11 +16,22 @@ Future<void> main() async {
   }
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  await FirebaseAppCheck.instance.activate(
-    providerAndroid: kDebugMode
-        ? const AndroidDebugProvider()
-        : const AndroidPlayIntegrityProvider(),
-  );
+
+  try {
+    await FirebaseAppCheck.instance.activate(
+      providerAndroid: kDebugMode
+          ? const AndroidDebugProvider()
+          : const AndroidPlayIntegrityProvider(),
+    );
+  } on FirebaseException catch (e) {
+    debugPrint(
+      'Firebase App Check activation failed: ${e.message}. '
+      'Enable App Check in Firebase Console and register the debug token.',
+    );
+  } catch (e) {
+    debugPrint('Firebase App Check activation failed: $e');
+  }
+
   runApp(const MyApp());
 }
 

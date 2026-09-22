@@ -83,7 +83,7 @@ class _AddnewScreenState extends State<AddnewScreen> {
                           ),
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
-                              horizontal: 54,
+                              horizontal: 56,
                               vertical: 15,
                             ),
                             child: Text(
@@ -113,7 +113,7 @@ class _AddnewScreenState extends State<AddnewScreen> {
                           ),
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
-                              horizontal: 54,
+                              horizontal: 56,
                               vertical: 15,
                             ),
                             child: Text(
@@ -151,22 +151,35 @@ class _AddnewScreenState extends State<AddnewScreen> {
                           fontSize: 20,
                         ),
                       ),
-                      TextField(
-                        style: TextStyle(
+
+                      Text(
+                        _amountController.text.isEmpty
+                            ? '0'
+                            : _amountController.text,
+                        style: const TextStyle(
+                          fontSize: 50,
                           fontWeight: FontWeight.bold,
-                          fontSize: 60,
-                          color: kWhite,
-                        ),
-                        decoration: InputDecoration(
-                          hintText: "0",
-                          border: InputBorder.none,
-                          hintStyle: TextStyle(
-                            fontSize: 60,
-                            fontWeight: FontWeight.bold,
-                            color: kWhite,
-                          ),
+                          color: Colors.white,
                         ),
                       ),
+
+                      // TextField(
+
+                      //   style: TextStyle(
+                      //     fontWeight: FontWeight.bold,
+                      //     fontSize: 60,
+                      //     color: kWhite,
+                      //   ),
+                      //   decoration: InputDecoration(
+                      //     hintText: "0",
+                      //     border: InputBorder.none,
+                      //     hintStyle: TextStyle(
+                      //       fontSize: 60,
+                      //       fontWeight: FontWeight.bold,
+                      //       color: kWhite,
+                      //     ),
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),
@@ -249,27 +262,32 @@ class _AddnewScreenState extends State<AddnewScreen> {
 
                         //description
                         SizedBox(height: 15),
+                        // TextFormField(
+                        //   validator: (value) {
+                        //     if (value!.isEmpty) {
+                        //       return "please enter a discription";
+                        //     }
+                        //     return null;
+                        //   },
+                        //   controller: _descriptionController,
+                        //   decoration: InputDecoration(
+                        //     hint: Text("Description"),
+                        //     contentPadding: EdgeInsets.symmetric(
+                        //       vertical: 10,
+                        //       horizontal: 20,
+                        //     ),
+                        //     border: OutlineInputBorder(
+                        //       borderRadius: BorderRadius.circular(100),
+                        //     ),
+                        //   ),
+                        // ),
+                        // SizedBox(height: 15),
                         TextFormField(
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return "please enter a discription";
-                            }
-                            return null;
+                          onChanged: (value) {
+                            setState(() {
+                              _amountController.text = value;
+                            });
                           },
-                          controller: _descriptionController,
-                          decoration: InputDecoration(
-                            hint: Text("Description"),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 20,
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(100),
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 15),
-                        TextFormField(
                           validator: (value) {
                             if (value!.isEmpty) {
                               return "please enter a valid number...";
