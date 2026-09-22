@@ -1,6 +1,7 @@
 import 'package:dotenv/dotenv.dart';
 import 'package:expenz/routes/routing.dart';
 import 'package:expenz/services/user_services.dart';
+import 'package:expenz/utilities/colors.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
@@ -51,7 +52,31 @@ class MyApp extends StatelessWidget {
         return MaterialApp.router(
           debugShowCheckedModeBanner: false,
           title: 'Expenz',
-          theme: ThemeData(fontFamily: 'Inter'),
+          theme: ThemeData(
+            useMaterial3: true,
+            fontFamily: 'Inter',
+            scaffoldBackgroundColor: const Color.fromARGB(255, 210, 219, 255),
+            colorScheme: ColorScheme.fromSeed(
+              seedColor: kMainColor,
+              brightness: Brightness.light,
+              primary: kMainColor,
+              secondary: kMainColorDark,
+            ),
+            appBarTheme: const AppBarTheme(
+              backgroundColor: kBackground,
+              foregroundColor: kBlack,
+              elevation: 0,
+              centerTitle: true,
+            ),
+            cardTheme: CardThemeData(
+              color: kSurface,
+              elevation: 0,
+              margin: EdgeInsets.zero,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(22),
+              ),
+            ),
+          ),
           routerConfig: RouterClass(showMainScreen: hasUserName).router,
         );
       },

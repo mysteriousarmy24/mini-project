@@ -28,7 +28,7 @@ class IncomeServices {
           .collection('users')
           .doc(userId)
           .collection('incomes')
-          .doc(income.id)
+          .doc(income.category.toString())
           .set(income.toJson());
 
       if (context.mounted) {

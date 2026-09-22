@@ -26,7 +26,7 @@ class ExpenseService {
           .collection('users')
           .doc(userId)
           .collection('expenses')
-          .doc(expense.id.toString())
+          .doc(expense.category.toString())
           .set(expense.toJson());
 
       if (context.mounted) {

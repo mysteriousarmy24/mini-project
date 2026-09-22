@@ -37,136 +37,110 @@ class _BudgetScreenState extends State<BudgetScreen> {
         : widget.incomesTotal;
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           "Financial Report",
-          style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.w800),
         ),
-        centerTitle: true,
       ),
       body: SafeArea(
         child: SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
           child: Column(
             children: [
-              SizedBox(height: 20),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                        blurRadius: 10,
-                        color: Colors.black.withValues(alpha: 0.3),
-                      ),
-                    ],
-                    color: Color(0xFFF1F1FA),
-                    borderRadius: BorderRadius.circular(100),
-                  ),
-                  height: MediaQuery.of(context).size.height * 0.08,
-                  child: Padding(
-                    padding: const EdgeInsets.all(5),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _selectedMethod = 0;
-                            });
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: _selectedMethod == 0
-                                  ? kRed
-                                  : Color(0xFFF1F1FA),
-                              borderRadius: BorderRadius.circular(100),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 40,
-                                vertical: 15,
-                              ),
-                              child: Text(
-                                "Expenses",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 20,
-                                  color: _selectedMethod == 0
-                                      ? Color(0xFFF1F1FA)
-                                      : kBlack,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _selectedMethod = 1;
-                            });
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: _selectedMethod == 1
-                                  ? kGreen
-                                  : Color(0xFFF1F1FA),
-                              borderRadius: BorderRadius.circular(100),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 33,
-                                vertical: 15,
-                              ),
-                              child: Text(
-                                "Incomes",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 20,
-                                  color: _selectedMethod == 1
-                                      ? Color(0xFFF1F1FA)
-                                      : kBlack,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
+              Container(
+                padding: const EdgeInsets.all(6),
+                decoration: BoxDecoration(
+                  color: kLightGrey,
+                  borderRadius: BorderRadius.circular(28),
+                  boxShadow: [
+                    BoxShadow(
+                      color: kMainColor.withValues(alpha: 0.08),
+                      blurRadius: 12,
+                      offset: const Offset(0, 6),
                     ),
-                  ),
+                  ],
+                ),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () => setState(() => _selectedMethod = 0),
+                        child: AnimatedContainer(
+                          duration: const Duration(milliseconds: 200),
+                          padding: const EdgeInsets.symmetric(vertical: 14),
+                          decoration: BoxDecoration(
+                            color: _selectedMethod == 0
+                                ? kRed
+                                : Colors.transparent,
+                            borderRadius: BorderRadius.circular(22),
+                          ),
+                          alignment: Alignment.center,
+                          child: Text(
+                            "Expenses",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 17,
+                              color: _selectedMethod == 0 ? kWhite : kBlack,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () => setState(() => _selectedMethod = 1),
+                        child: AnimatedContainer(
+                          duration: const Duration(milliseconds: 200),
+                          padding: const EdgeInsets.symmetric(vertical: 14),
+                          decoration: BoxDecoration(
+                            color: _selectedMethod == 1
+                                ? kGreen
+                                : Colors.transparent,
+                            borderRadius: BorderRadius.circular(22),
+                          ),
+                          alignment: Alignment.center,
+                          child: Text(
+                            "Incomes",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 17,
+                              color: _selectedMethod == 1 ? kWhite : kBlack,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Chart(
                 isIncome: _selectedMethod == 0,
                 expenseTotal: widget.expensesTotal,
                 incomeTotal: widget.incomesTotal,
               ),
-              SizedBox(height: 20),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.35,
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: data.length,
-                    itemBuilder: (context, index) {
-                      final category = data.keys.toList()[index];
-                      final total = data.values.toList()[index];
-                      return CategoryChartCard(
-                        title: category.name,
-                        progressColor: /*_selectedMethod == 0
-                            ? incomeCategoryColors.values.toList()[index]
-                            : expenseCategoryColors.values.toList()[index]*/
-                            getColor(category),
-                        amount: total,
-                        total: data.values.fold(
-                          0.0,
-                          (sum, element) => sum + element,
-                        ),
-                        isExpense: _selectedMethod == 0 ? true : false,
-                      );
-                    },
-                  ),
-                ),
+              const SizedBox(height: 20),
+              ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: data.length,
+                itemBuilder: (context, index) {
+                  final category = data.keys.toList()[index];
+                  final total = data.values.toList()[index];
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: CategoryChartCard(
+                      title: category.name,
+                      progressColor: getColor(category),
+                      amount: total,
+                      total: data.values.fold(
+                        0.0,
+                        (sum, element) => sum + element,
+                      ),
+                      isExpense: _selectedMethod == 0 ? true : false,
+                    ),
+                  );
+                },
               ),
             ],
           ),

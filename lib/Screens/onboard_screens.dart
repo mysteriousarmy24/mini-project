@@ -18,7 +18,7 @@ class _OnboardScreensState extends State<OnboardScreens> {
   bool isPageLoaded = false;
   @override
   Widget build(BuildContext context) {
-    final PageController _contraller = PageController();
+    final PageController controller = PageController();
     final onboardData = OnboardData();
 
     return Scaffold(
@@ -29,29 +29,24 @@ class _OnboardScreensState extends State<OnboardScreens> {
               child: Stack(
                 children: [
                   PageView(
-                    controller: _contraller,
+                    controller: controller,
                     onPageChanged: (index) {
                       setState(() {
                         isPageLoaded = index == 3;
                       });
                     },
-
                     children: [
-                      //page-01
                       Page1(),
-                      //page-02
                       SharedOnboardingWidget(
                         imgUrl: onboardData.onboardList[0].imagePath,
                         title: onboardData.onboardList[0].title,
                         description: onboardData.onboardList[0].description,
                       ),
-                      //page-03
                       SharedOnboardingWidget(
                         imgUrl: onboardData.onboardList[1].imagePath,
                         title: onboardData.onboardList[1].title,
                         description: onboardData.onboardList[1].description,
                       ),
-                      //page-04
                       SharedOnboardingWidget(
                         imgUrl: onboardData.onboardList[2].imagePath,
                         title: onboardData.onboardList[2].title,
@@ -59,11 +54,10 @@ class _OnboardScreensState extends State<OnboardScreens> {
                       ),
                     ],
                   ),
-                  //pageIndicator
                   Container(
-                    alignment: Alignment(0, 0.7),
+                    alignment: const Alignment(0, 0.7),
                     child: SmoothPageIndicator(
-                      controller: _contraller,
+                      controller: controller,
                       count: 4,
                       effect: ExpandingDotsEffect(
                         activeDotColor: kMainColor,
@@ -74,7 +68,6 @@ class _OnboardScreensState extends State<OnboardScreens> {
                       ),
                     ),
                   ),
-                  //Button
                   Positioned(
                     left: 0,
                     right: 0,
@@ -82,11 +75,17 @@ class _OnboardScreensState extends State<OnboardScreens> {
                     child: !isPageLoaded
                         ? GestureDetector(
                             onTap: () {
-                              _contraller.animateToPage(
-                                _contraller.page!.toInt() + 1,
-                                duration: Duration(milliseconds: 400),
-                                curve: Curves.easeInOutCubic,
-                              );
+                              final currentPage = controller.hasClients
+                                  ? (controller.page ?? 0).toInt()
+                                  : 0;
+                              final nextPage = currentPage + 1;
+                              if (nextPage < 4) {
+                                controller.animateToPage(
+                                  nextPage,
+                                  duration: const Duration(milliseconds: 400),
+                                  curve: Curves.easeInOutCubic,
+                                );
+                              }
                             },
                             child: CustomButton(
                               bgColor: kMainColor,

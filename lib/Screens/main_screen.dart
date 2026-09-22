@@ -92,10 +92,11 @@ class _MainScreenState extends State<MainScreen> {
       ExpenseCategory.health: 0,
       ExpenseCategory.shopping: 0,
       ExpenseCategory.subscription: 0,
+      ExpenseCategory.other: 0,
     };
     for (Expense expense in expenseList) {
       expenseCategoryTot[expense.category] =
-          expenseCategoryTot[expense.category]! + expense.amount;
+          (expenseCategoryTot[expense.category] ?? 0) + expense.amount;
     }
     return expenseCategoryTot;
   }
@@ -106,10 +107,11 @@ class _MainScreenState extends State<MainScreen> {
       IncomeCategory.passive: 0,
       IncomeCategory.sales: 0,
       IncomeCategory.salary: 0,
+      IncomeCategory.Other: 0,
     };
     for (Income income in incomeList) {
       incomeCategoryTot[income.category] =
-          incomeCategoryTot[income.category]! + income.amount;
+          (incomeCategoryTot[income.category] ?? 0) + income.amount;
     }
     return incomeCategoryTot;
   }
@@ -132,47 +134,83 @@ class _MainScreenState extends State<MainScreen> {
       ProfileScreen(),
     ];
     return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: kWhite,
-        selectedItemColor: kMainColor,
-        unselectedItemColor: kGrey,
-        currentIndex: _curruntIndex,
-        selectedLabelStyle: TextStyle(
-          fontSize: 12,
-          fontWeight: FontWeight.w600,
-        ),
-
-        onTap: (index) {
-          setState(() {
-            _curruntIndex = index;
-          });
-        },
-
-        items: [
-          BottomNavigationBarItem(label: "Home", icon: Icon(Icons.home)),
-
-          BottomNavigationBarItem(
-            label: "Transactions",
-            icon: Icon(Icons.list_rounded),
-          ),
-          BottomNavigationBarItem(
-            label: "",
-            icon: Container(
-              decoration: BoxDecoration(
-                color: kMainColor,
-                shape: BoxShape.circle,
+      bottomNavigationBar: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
+          child: Container(
+            decoration: BoxDecoration(
+              color: kSurface,
+              borderRadius: BorderRadius.circular(28),
+              boxShadow: [
+                BoxShadow(
+                  color: kMainColor.withValues(alpha: 0.12),
+                  blurRadius: 18,
+                  offset: const Offset(0, 10),
+                ),
+              ],
+            ),
+            child: BottomNavigationBar(
+              type: BottomNavigationBarType.fixed,
+              backgroundColor: Colors.transparent,
+              selectedItemColor: kMainColor,
+              unselectedItemColor: kGrey,
+              elevation: 0,
+              currentIndex: _curruntIndex,
+              selectedLabelStyle: const TextStyle(
+                fontSize: 11,
+                fontWeight: FontWeight.w700,
               ),
-              child: Padding(
-                padding: const EdgeInsets.all(18.0),
-                child: Icon(Icons.add, color: kWhite),
+              unselectedLabelStyle: const TextStyle(
+                fontSize: 11,
+                fontWeight: FontWeight.w500,
               ),
+              showSelectedLabels: true,
+              showUnselectedLabels: true,
+              onTap: (index) {
+                setState(() {
+                  _curruntIndex = index;
+                });
+              },
+              items: [
+                const BottomNavigationBarItem(
+                  label: "Home",
+                  icon: Icon(Icons.home_rounded),
+                ),
+                const BottomNavigationBarItem(
+                  label: "Flow",
+                  icon: Icon(Icons.swap_horiz_rounded),
+                ),
+                BottomNavigationBarItem(
+                  label: "Add",
+                  icon: Container(
+                    width: 42,
+                    height: 42,
+                    decoration: BoxDecoration(
+                      color: kMainColor,
+                      borderRadius: BorderRadius.circular(16),
+                      boxShadow: [
+                        BoxShadow(
+                          color: kMainColor.withValues(alpha: 0.35),
+                          blurRadius: 12,
+                          offset: const Offset(0, 6),
+                        ),
+                      ],
+                    ),
+                    child: const Icon(Icons.add_rounded, color: kWhite),
+                  ),
+                ),
+                const BottomNavigationBarItem(
+                  label: "Budget",
+                  icon: Icon(Icons.pie_chart_rounded),
+                ),
+                const BottomNavigationBarItem(
+                  label: "Profile",
+                  icon: Icon(Icons.person_rounded),
+                ),
+              ],
             ),
           ),
-          BottomNavigationBarItem(label: "Budget", icon: Icon(Icons.rocket)),
-
-          BottomNavigationBarItem(label: "Profile", icon: Icon(Icons.person)),
-        ],
+        ),
       ),
       body: screenList[_curruntIndex],
     );
